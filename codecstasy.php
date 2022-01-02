@@ -17,6 +17,7 @@
  */
 
 use CodeEcstasy\Admin;
+use CodeEcstasy\Admin\Installer;
 use CodeEcstasy\Frontend;
 
 if ( ! defined( 'ABSPATH' ) ) {
@@ -48,6 +49,22 @@ final class CodeEcstasy {
     }
 
     /**
+     * Initializes the plugin
+     *
+     * @return void
+     */     
+    public function init_plugin() {
+
+        if ( is_admin() ) {
+            new Admin();
+        }else{
+            new Frontend();
+        }
+
+        
+    }
+
+    /**
      * Initializing the plugin singleton instance
      *
      * @return \CodeEcstasy
@@ -76,34 +93,15 @@ final class CodeEcstasy {
     }
 
     /**
-     * Initializes the plugin
-     *
-     * @return void
-     */     
-    public function init_plugin() {
-
-        if ( is_admin() ) {
-            new Admin();
-        }else{
-            new Frontend();
-        }
-
-        
-    }
-
-    /**
      * Do things while activating the plugin
      *
      * @return void
      */
     public function activate() {
-        update_option( 'code_ecstasy_version', CODE_ECSTASY_VERSION );
-
-        $installed = get_option( 'code_ecstasy_installed' );
-
-        if ( ! $installed ) {
-            update_option( 'code_ecstasy_installed', time() );
-        }
+        $installer = new Installer();
+        
+        $installer->add_version();
+        $installer->create_tables();
 
     }
 

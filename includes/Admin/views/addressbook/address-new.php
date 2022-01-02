@@ -1,7 +1,6 @@
 <div class="wrap">
     <h1 class="wp-heading-inline"><?php _e( "New Address", "codecstasy" )?></h1>
-    <?php //var_dump($this->errors) ?>
-    <form method="POST">
+    <form method="POST" action="<?php echo admin_url("admin-post.php") ?>">
         <table class="form-table">
 
             <tr>
@@ -39,10 +38,11 @@
 
         </table>
 
+        <input type="hidden" name="action" value="create_new_address">
         <?php
-wp_nonce_field( "new-address" );
-submit_button( "Add Address", "primary", "submit_address" )
-?>
+            wp_nonce_field( "new-address" );
+            submit_button( "Add Address", "primary", "submit_address" )
+        ?>
     </form>
 
 </div>

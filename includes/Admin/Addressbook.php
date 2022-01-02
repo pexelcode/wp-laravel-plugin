@@ -2,6 +2,8 @@
 
 namespace CodeEcstasy\Admin;
 
+use CodeEcstasy\Models\Addressbook as ModelsAddressbook;
+
 /**
  * Addressbook Handler Class
  */
@@ -67,17 +69,17 @@ class Addressbook {
             return;
         }
 
-        $inserted = codecstasy_insert_address( [
+        $inserted = ModelsAddressbook::create( [
             "name"    => $name,
             "phone"   => $phone,
             "address" => $address,
         ] );
 
-        if ( is_wp_error( $inserted ) ) {
-            wp_die( $inserted->get_error_message() );
+        if ( $inserted->ID == 0 ) {
+            wp_die( "Something went wrong!" );
         }
 
-        wp_redirect(admin_url("admin.php?page=codecstasy&inserted=true"));
+        wp_redirect( admin_url( "admin.php?page=codecstasy&inserted=true" ) );
 
         exit;
 

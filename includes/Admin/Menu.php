@@ -10,7 +10,7 @@ class Menu {
         add_action( 'admin_menu', [$this, 'admin_menu'] );
 
         $this->addressbook = new Addressbook();
-        add_action( 'admin_init', [$this->addressbook, 'form_handler'] );
+        add_action( 'admin_post_create_new_address', [$this->addressbook, 'form_handler'] );
     }
 
     public function admin_menu() {

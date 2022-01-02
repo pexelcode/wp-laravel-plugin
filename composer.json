@@ -10,7 +10,9 @@
         }
     ],
     "minimum-stability": "dev",
-    "require": {},
+    "require": {
+        "tareq1988/wp-eloquent": "dev-master"
+    },
     "autoload": {
         "psr-4": {
             "CodeEcstasy\\": "includes/"

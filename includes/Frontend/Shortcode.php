@@ -2,6 +2,9 @@
 
 namespace CodeEcstasy\Frontend;
 
+/**
+ * Basic Shortcode
+ */
 class Shortcode {
 
     /**

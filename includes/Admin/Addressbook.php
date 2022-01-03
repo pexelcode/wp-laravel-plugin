@@ -4,6 +4,7 @@ namespace CodeEcstasy\Admin;
 
 use CodeEcstasy\Models\Addressbook as ModelAddressBook;
 use CodeEcstasy\Traits\FormError;
+use WeDevs\ORM\Eloquent\Facades\DB;
 
 /**
  * Addressbook Handler Class
@@ -11,6 +12,7 @@ use CodeEcstasy\Traits\FormError;
 class Addressbook {
 
     use FormError;
+
     /**
      * Shows the plugin template
      *
@@ -98,14 +100,12 @@ class Addressbook {
             ];
 
             $updated = ModelAddressBook::where( "id", $id )->update( $data );
-            
-            if(! $updated){
+
+            if ( ! $updated ) {
                 wp_die( "Update failed" );
             }
-            
-            wp_redirect( admin_url( "admin.php?page=codecstasy&action=edit&updated-record=true&id=" . $id ) );
-            
 
+            wp_redirect( admin_url( "admin.php?page=codecstasy&action=edit&updated-record=true&id=" . $id ) );
 
         } else {
 
@@ -125,6 +125,41 @@ class Addressbook {
         }
 
         exit;
+
+    }
+
+    /**
+     * Delete Addressbook
+     *
+     * @return void
+     */
+    public function delete_addressbook() {
+
+        if ( ! isset( $_REQUEST['action'] ) && $_REQUEST['delete-address-book'] != "addressbook-delete" ) {
+            return;
+        }
+
+        if ( ! wp_verify_nonce( $_REQUEST['_wpnonce'], 'delete-address-book' ) ) {
+            wp_die( "Are you cheating" );
+        }
+
+        if ( ! current_user_can( "manage_options" ) ) {
+            wp_die( "Are you cheating" );
+        }
+
+        $id = isset( $_REQUEST['id'] ) ? intval( $_REQUEST['id'] ) : 0;
+
+        if ( ! $id ) {
+            wp_die( "Something is wrong" );
+        }
+        
+        $deleted = ModelAddressBook::where( "id", $id )->delete();
+
+        if ( ! $deleted ) {
+            wp_die( "Something is wrong" );
+        }
+
+        wp_redirect( admin_url( "admin.php?page=codecstasy&deleted-record=true" ) );
 
     }
 

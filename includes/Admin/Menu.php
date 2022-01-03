@@ -36,6 +36,7 @@ class Menu {
     public function dispatch_form_handlers() {
         $this->addressbook = new Addressbook();
         add_action( 'admin_init', [$this->addressbook, 'form_handler'] );
+        add_action( 'admin_post_addressbook-delete', [$this->addressbook, 'delete_addressbook'] );
     }
 
     /**

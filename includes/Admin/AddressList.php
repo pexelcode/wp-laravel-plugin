@@ -14,6 +14,9 @@ use WP_List_Table;
  * List table of our addressbook
  */
 class AddressList extends WP_List_Table {
+    /**
+     * Constructing the column
+     */
     public function __construct() {
         parent::__construct( [
             'singular' => "contant",
@@ -22,6 +25,11 @@ class AddressList extends WP_List_Table {
         ] );
     }
 
+    /**
+     * All the column name on header and footer
+     *
+     * @return void
+     */
     public function get_columns() {
         return [
             'cb'         => '<input type="checkbox" />',
@@ -32,24 +40,51 @@ class AddressList extends WP_List_Table {
         ];
     }
 
+    /**
+     * Default column
+     *
+     * @return void
+     */
     protected function column_default( $item, $column_name ) {
         return $item->$column_name;
     }
 
+    /**
+     * Change the name of column name with row actions
+     *
+     * @param $item
+     * @return void
+     */
     public function column_name( $item ) {
 
+        $page = "codecstasy";
         $actions = [];
 
-        $actions['edit']   = '<a href="' . admin_url( "admin.php?page=codecstasy&action=edit&id=" . $item->id ) . '">Edit</a>';
-        $actions['delete'] = '<a onclick="return confirm(\'Are you sure you want to delete this post?\')" href="' . wp_nonce_url( admin_url( "admin-post.php?page=codecstasy&action=addressbook-delete&id=" . $item->id ) , "delete-address-book" ) . '">Delete</a>';
+        $actions['edit']   = '<a href="' . admin_url( "admin.php?page={$page}&action=edit&id=" . $item->id ) . '">Edit</a>';
+        $actions['delete'] = '<a onclick="return confirm(\'Are you sure you want to delete this post?\')" href="' . 
+        wp_nonce_url( 
+            admin_url( "admin-post.php?action=addressbook-delete&id=" . $item->id ) , 
+            "delete-address-book" 
+        ) . '">Delete</a>';
 
-        return "<b><a href='" . admin_url( "admin.php?page=codecstasy&action=edit&id=" . $item->id ) . "'>{$item->name}</a></b>" . $this->row_actions( $actions );
+        return "<b><a href='" . admin_url( "admin.php?page={$page}&action=edit&id=" . $item->id ) . "'>{$item->name}</a></b>" . $this->row_actions( $actions );
     }
 
+    /**
+     * Checkbox column
+     *
+     * @param $item
+     * @return void
+     */
     public function column_cb( $item ) {
         return "<input type='checkbox' name='address_id[]' value='" . $item->id . "'>";
     }
 
+    /**
+     * All the sortable columns
+     *
+     * @return void
+     */
     public function get_sortable_columns() {
         return [
             'name'       => ["name", true],
@@ -57,6 +92,11 @@ class AddressList extends WP_List_Table {
         ];
     }
 
+    /**
+     * Prepare items to display
+     *
+     * @return void
+     */
     public function prepare_items() {
         $column   = $this->get_columns();
         $hidden   = [];

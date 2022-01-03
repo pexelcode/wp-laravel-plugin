@@ -23,6 +23,8 @@ class Shortcode {
      * @return void
      */
     public function render_codecstasy_shortcode( $atts, $content = "" ) {
+        ob_start();
         echo "Hello From Shortcode";
+        return ob_get_clean();
     }
 }

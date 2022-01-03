@@ -30,7 +30,7 @@ private static $installed = array (
     'aliases' => 
     array (
     ),
-    'reference' => '1e24f58281ca68df1437586dd20e96e1eeb919fb',
+    'reference' => 'ffe60eec355b875e7ead54ae6a8746af2467bfbe',
     'name' => 'nibir/codecstasy',
   ),
   'versions' => 
@@ -114,7 +114,7 @@ private static $installed = array (
       'aliases' => 
       array (
       ),
-      'reference' => '1e24f58281ca68df1437586dd20e96e1eeb919fb',
+      'reference' => 'ffe60eec355b875e7ead54ae6a8746af2467bfbe',
     ),
     'psr/container' => 
     array (

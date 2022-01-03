@@ -2,18 +2,24 @@
 
 namespace CodeEcstasy\Admin;
 
-use CodeEcstasy\Models\Addressbook as ModelsAddressbook;
+use CodeEcstasy\Models\Addressbook as ModelAddressBook;
+use CodeEcstasy\Traits\FormError;
 
 /**
  * Addressbook Handler Class
  */
 class Addressbook {
 
-    public $errors = [];
-
+    use FormError;
+    /**
+     * Shows the plugin template
+     *
+     * @return void
+     */
     public function plugin_page() {
 
         $page = isset( $_GET['action'] ) ? $_GET['action'] : 'list';
+        $id   = isset( $_GET['id'] ) ? $_GET['id'] : 0;
 
         switch ( $page ) {
         case 'new':
@@ -21,6 +27,7 @@ class Addressbook {
             break;
 
         case 'edit':
+            $address  = ModelAddressBook::findOrFail( $id );
             $template = __DIR__ . "/views/addressbook/address-edit.php";
             break;
 
@@ -28,17 +35,29 @@ class Addressbook {
             $template = __DIR__ . "/views/addressbook/address-view.php";
             break;
 
+        case 'relation':
+            var_dump( ModelAddressBook::findOrFail( 1 )->ce_relation->first()->name );
+            die;
+            break;
+
         default:
             $template = __DIR__ . "/views/addressbook/address-list.php";
             break;
         }
 
-        if ( file_exists( $template ) ) {
-            include $template;
+        if ( ! file_exists( $template ) ) {
+            wp_die( "File not found" );
         }
+
+        include $template;
 
     }
 
+    /**
+     * Add address form handler
+     *
+     * @return void
+     */
     public function form_handler() {
 
         if ( ! isset( $_POST['submit_address'] ) ) {
@@ -53,9 +72,10 @@ class Addressbook {
             wp_die( "Are you cheating" );
         }
 
-        $name    = isset( $_POST['name'] ) ? sanitize_text_field( $_POST['name'] ) : "";
-        $address = isset( $_POST['address'] ) ? sanitize_text_field( $_POST['address'] ) : "";
-        $phone   = isset( $_POST['phone'] ) ? sanitize_text_field( $_POST['phone'] ) : "";
+        $id      = isset( $_POST['id'] ) ? intval( $_POST['id'] ) : 0;
+        $name    = isset( $_POST['name'] ) ? sanitize_text_field( $_POST['name'] ) : null;
+        $address = isset( $_POST['address'] ) ? sanitize_text_field( $_POST['address'] ) : null;
+        $phone   = isset( $_POST['phone'] ) ? sanitize_text_field( $_POST['phone'] ) : null;
 
         if ( empty( $name ) ) {
             $this->errors['name'] = "Name is required";
@@ -69,17 +89,40 @@ class Addressbook {
             return;
         }
 
-        $inserted = ModelsAddressbook::create( [
-            "name"    => $name,
-            "phone"   => $phone,
-            "address" => $address,
-        ] );
+        if ( $id ) {
 
-        if ( $inserted->ID == 0 ) {
-            wp_die( "Something went wrong!" );
+            $data = [
+                "name"    => $name,
+                "address" => $address,
+                "phone"   => $phone,
+            ];
+
+            $updated = ModelAddressBook::where( "id", $id )->update( $data );
+            
+            if(! $updated){
+                wp_die( "Update failed" );
+            }
+            
+            wp_redirect( admin_url( "admin.php?page=codecstasy&action=edit&updated-record=true&id=" . $id ) );
+            
+
+
+        } else {
+
+            $inserted = ModelAddressBook::create( [
+                "name"       => $name,
+                "phone"      => $phone,
+                "address"    => $address,
+                "created_by" => get_current_user_id(),
+            ] );
+
+            if ( $inserted->ID == 0 ) {
+                wp_die( "Something went wrong!" );
+            }
+
+            wp_redirect( admin_url( "admin.php?page=codecstasy&inserted=true" ) );
+
         }
-
-        wp_redirect( admin_url( "admin.php?page=codecstasy&inserted=true" ) );
 
         exit;
 

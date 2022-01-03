@@ -14,6 +14,12 @@
         </div>
     <?php endif; ?>
     
-
+    <form action="" method="POST">
+        <?php 
+            $table = new CodeEcstasy\Admin\AddressList();
+            $table->prepare_items();
+            $table->display();
+        ?>
+    </form>
     
 </div>

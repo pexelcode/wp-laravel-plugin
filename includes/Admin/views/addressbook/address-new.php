@@ -1,6 +1,6 @@
 <div class="wrap">
     <h1 class="wp-heading-inline"><?php _e( "New Address", "codecstasy" )?></h1>
-    <form method="POST" action="<?php echo admin_url("admin-post.php") ?>">
+    <form method="POST" action="">
         <table class="form-table">
 
             <tr>
@@ -9,8 +9,8 @@
                 </th>
                 <td>
                     <input type="text" name="name" class="regular-text" id="name">
-                    <?php if ( isset( $this->errors['name'] ) ) :?>
-                            <p style="color:red">Name is required</p>
+                    <?php if ( $this->has_error("name") ) : ?>
+                            <p style="color:red"><?php echo $this->get_error("name") ?></p>
                     <?php endif; ?>
                 </td>
             </tr>
@@ -30,8 +30,8 @@
                 </th>
                 <td>
                     <input type="text" name="phone" class="regular-text" id="phone">
-                    <?php if ( isset( $this->errors['name'] ) ) :?>
-                            <p style="color:red">Name is required</p>
+                    <?php if ( $this->has_error("phone") ) : ?>
+                            <p style="color:red"><?php echo $this->get_error("phone") ?></p>
                     <?php endif; ?>
                 </td>
             </tr>

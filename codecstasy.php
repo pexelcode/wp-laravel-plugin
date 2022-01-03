@@ -1,5 +1,4 @@
 <?php
-
 /**
  * Plugin Name:       Code Ecstasy
  * Plugin URI:        https://codecstasy.com
@@ -18,6 +17,7 @@
 
 use CodeEcstasy\Admin;
 use CodeEcstasy\Admin\Installer;
+use CodeEcstasy\Assets;
 use CodeEcstasy\Frontend;
 
 if ( ! defined( 'ABSPATH' ) ) {
@@ -54,6 +54,8 @@ final class CodeEcstasy {
      * @return void
      */     
     public function init_plugin() {
+
+        new Assets();
 
         if ( is_admin() ) {
             new Admin();

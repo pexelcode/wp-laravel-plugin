@@ -7,6 +7,11 @@ namespace CodeEcstasy\Admin;
  */
 class Installer {
 
+    /**
+     * Add versioning
+     *
+     * @return void
+     */
     public function add_version() {
         update_option( 'code_ecstasy_version', CODE_ECSTASY_VERSION );
 
@@ -18,6 +23,11 @@ class Installer {
 
     }
 
+    /**
+     * Create Database tables when activating the plugin
+     *
+     * @return void
+     */
     public function create_tables() {
         global $wpdb;
 
@@ -30,6 +40,7 @@ class Installer {
             `phone` varchar(255) DEFAULT NULL,
             `created_by` int(11) DEFAULT NULL,
             `created_at` datetime DEFAULT NULL,
+            `updated_at` datetime DEFAULT NULL,
             PRIMARY KEY (`id`)
           ) {$collate}";
 

@@ -1,34 +1,32 @@
-<?php
+<?php 
 
 namespace CodeEcstasy\Models;
 
-use CodeEcstasy\Models\Relation;
-use Illuminate\Database\Eloquent\Relations\HasMany;
 use WeDevs\ORM\Eloquent\Model;
 
-class Addressbook extends Model {
+
+class Relation extends Model {
 
     /**
      * Name for table without prefix
      *
      * @var string
      */
-    protected $table = 'ce_addressess';
+    protected $table = 'ce_relation';
 
     /**
      * Columns that can be edited - IE not primary key or timestamps if being used
      */
     protected $fillable = [
         'name',
-        'phone',
-        'address',
-        'created_by',
+        'email',
+        'phone'
     ];
 
     /**
      * Disable created_at and update_at columns, unless you have those.
      */
-    public $timestamps = true;
+    public $timestamps = false;
 
     /** Everything below this is best done in an abstract class that custom tables extend */
 
@@ -44,32 +42,23 @@ class Addressbook extends Model {
      *
      * @var string
      */
-    protected $guarded = ['ID'];
+    protected $guarded = [ 'ID' ];
 
     /**
      * Overide parent method to make sure prefixing is correct.
      *
      * @return string
      */
-    public function getTable() {
-
-// In this example, it's set, but this is better in an abstract class
-        if ( isset( $this->table ) ) {
-            $prefix = $this->getConnection()->db->prefix;
-
+    public function getTable()
+    {
+        // In this example, it's set, but this is better in an abstract class
+        if ( isset( $this->table ) ){
+            $prefix =  $this->getConnection()->db->prefix;
+            
             return $prefix . $this->table;
         }
 
         return parent::getTable();
     }
-
-    // /**
-    //  * Get all of the ce_relation for the Addressbook
-    //  *
-    //  * @return \Illuminate\Database\Eloquent\Relations\HasMany
-    //  */
-    // public function ce_relation(): HasMany {
-    //     return $this->hasMany( Relation::class, 'ce_address_id', 'id' );
-    // }
 
 }

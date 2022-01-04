@@ -2,7 +2,6 @@
 
 namespace CodeEcstasy;
 
-use CodeEcstasy\Admin\Addressbook;
 use CodeEcstasy\Admin\Menu;
 
 class Admin {

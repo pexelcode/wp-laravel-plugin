@@ -2,6 +2,8 @@
 
 namespace CodeEcstasy\Admin;
 
+use CodeEcstasy\Admin\Controllers\Addressbook;
+
 class Menu {
 
     public $addessbook;

@@ -1,11 +1,11 @@
 <div class="wrap">
-    <h1 class="wp-heading-inline"><?php _e( "Edit Address", "codecstasy" )?></h1>
+    <h1 class="wp-heading-inline"><?php _e( "Edit Address", CE_TD )?></h1>
 
     <hr class="wp-header-end">
 
     <?php if( isset($_GET['updated-record']) ) : ?>
         <div class="notice notice-success is-dismissible">
-            <p><?php _e( 'Updated Successfully!', 'codecstasy' ); ?></p>
+            <p><?php _e( 'Updated Successfully!', CE_TD ); ?></p>
         </div>
     <?php endif; ?>
 
@@ -42,7 +42,7 @@
                 <td>
                     <input type="text" name="phone" class="regular-text" id="phone" value="<?php echo esc_attr( $address->phone ) ?>">
                         <?php if ( $this->has_error( "phone" ) ): ?>
-                            <p style="color:red"><?php _e( $this->get_error( "phone" ), "codecstasy" ) ?></p>
+                            <p style="color:red"><?php _e( $this->get_error( "phone" ), CE_TD ) ?></p>
                         <?php endif; ?>
                 </td>
             </tr>
@@ -50,7 +50,7 @@
         </table>
 
         <input type="hidden" name="action" value="create_new_address">
-        <input type="hidden" name="id" value="<?php esc_attr( _e( $address->id, "codecstasy" ) )?>">
+        <input type="hidden" name="id" value="<?php esc_attr( _e( $address->id, CE_TD ) )?>">
         <?php
             wp_nonce_field( "new-address" );
             submit_button( "Update Address", "primary", "submit_address" )

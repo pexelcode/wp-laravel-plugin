@@ -1,6 +1,6 @@
 <?php
 
-namespace CodeEcstasy\Admin;
+namespace CodeEcstasy\Admin\Controllers;
 
 use CodeEcstasy\Models\Addressbook as ModelAddressBook;
 use CodeEcstasy\Traits\FormError;
@@ -24,27 +24,27 @@ class Addressbook {
         $id   = isset( $_GET['id'] ) ? $_GET['id'] : 0;
 
         switch ( $page ) {
-        case 'new':
-            $template = __DIR__ . "/views/addressbook/address-new.php";
-            break;
+            case 'new':
+                $template = CODE_ECSTASY_PATH . "/includes/admin/views/addressbook/address-new.php";
+                break;
 
-        case 'edit':
-            $address  = ModelAddressBook::findOrFail( $id );
-            $template = __DIR__ . "/views/addressbook/address-edit.php";
-            break;
+            case 'edit':
+                $address  = ModelAddressBook::findOrFail( $id );
+                $template = CODE_ECSTASY_PATH . "/includes/admin/views/addressbook/address-edit.php";
+                break;
 
-        case 'view':
-            $template = __DIR__ . "/views/addressbook/address-view.php";
-            break;
+            case 'view':
+                $template = CODE_ECSTASY_PATH . "/includes/admin/views/addressbook/address-view.php";
+                break;
 
-        case 'relation':
-            var_dump( ModelAddressBook::findOrFail( 1 )->ce_relation->first()->name );
-            die;
-            break;
+            case 'relation':
+                var_dump( ModelAddressBook::findOrFail( 1 )->ce_relation->first()->name );
+                die;
+                break;
 
-        default:
-            $template = __DIR__ . "/views/addressbook/address-list.php";
-            break;
+            default:
+                $template = CODE_ECSTASY_PATH . "/includes/admin/views/addressbook/address-list.php";
+                break;
         }
 
         if ( ! file_exists( $template ) ) {

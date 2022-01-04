@@ -27,17 +27,19 @@ if ( ! defined( 'ABSPATH' ) ) {
 require_once __DIR__ . "/vendor/autoload.php";
 
 /**
- * 
+ *
  * Main Plugin Class
- * 
+ *
  */
 final class CodeEcstasy {
-
+    /**
+     * Plugin Version
+     */
     const version = '1.0.0';
 
     /**
      * Constructor
-     * 
+     *
      * @return void
      */
     private function __construct() {
@@ -52,18 +54,17 @@ final class CodeEcstasy {
      * Initializes the plugin
      *
      * @return void
-     */     
+     */
     public function init_plugin() {
 
         new Assets();
 
         if ( is_admin() ) {
             new Admin();
-        }else{
+        } else {
             new Frontend();
         }
 
-        
     }
 
     /**
@@ -83,7 +84,7 @@ final class CodeEcstasy {
 
     /**
      * Defining Constants
-     * 
+     *
      * @return void
      */
     public function define_constants() {
@@ -92,6 +93,7 @@ final class CodeEcstasy {
         define( 'CODE_ECSTASY_PATH', __DIR__ );
         define( 'CODE_ECSTASY_URL', plugins_url( '', CODE_ECSTASY_FILE ) );
         define( 'CODE_ECSTASY_ASSETS', CODE_ECSTASY_URL . '/assets' );
+        define( 'CE_TD', 'codecstasy' );
     }
 
     /**
@@ -101,7 +103,7 @@ final class CodeEcstasy {
      */
     public function activate() {
         $installer = new Installer();
-        
+
         $installer->add_version();
         $installer->create_tables();
 

@@ -1,11 +1,6 @@
 <?php
 
-namespace CodeEcstasy\Admin;
-
-// if ( ! class_exists("WP_List_Table") ) {
-
-//    require_once ABSPATH . "/wp-admin/includes/class-wp-list-table.php";
-// }
+namespace CodeEcstasy\Admin\Controllers\ListTables;
 
 use CodeEcstasy\Models\Addressbook;
 use WP_List_Table;
@@ -57,14 +52,14 @@ class AddressList extends WP_List_Table {
      */
     public function column_name( $item ) {
 
-        $page = "codecstasy";
+        $page    = "codecstasy";
         $actions = [];
 
         $actions['edit']   = '<a href="' . admin_url( "admin.php?page={$page}&action=edit&id=" . $item->id ) . '">Edit</a>';
-        $actions['delete'] = '<a onclick="return confirm(\'Are you sure you want to delete this post?\')" href="' . 
-        wp_nonce_url( 
-            admin_url( "admin-post.php?action=addressbook-delete&id=" . $item->id ) , 
-            "delete-address-book" 
+        $actions['delete'] = '<a onclick="return confirm(\'Are you sure you want to delete this post?\')" href="' .
+        wp_nonce_url(
+            admin_url( "admin-post.php?action=addressbook-delete&id=" . $item->id ),
+            "delete-address-book"
         ) . '">Delete</a>';
 
         return "<b><a href='" . admin_url( "admin.php?page={$page}&action=edit&id=" . $item->id ) . "'>{$item->name}</a></b>" . $this->row_actions( $actions );
@@ -98,6 +93,7 @@ class AddressList extends WP_List_Table {
      * @return void
      */
     public function prepare_items() {
+
         $column   = $this->get_columns();
         $hidden   = [];
         $sortable = $this->get_sortable_columns();

@@ -1,5 +1,5 @@
 
-# Code Ecstasy Basic WordPress plugin structure to make it usable like laravel framework
+# Pexel Code Basic WordPress plugin structure to make it usable like laravel framework
 
 With this plugin you can use it with laravel ORM and it's all structured as Model View Controller where you can user models controller and also views. One can handle errors too.
 
